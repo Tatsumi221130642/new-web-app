@@ -21,11 +21,31 @@ const getUserDetailById = async (id) => {
   }
 };
 
+const getUserByEmail = async (email) => {
+  try {
+    const [result] = await connection.execute(
+      `SELECT * FROM tbl_users WHERE email = ?`,
+      [email]
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
 const updateUser = async (body, id) => {
   try {
     const [result] = await connection.execute(
-      `UPDATE tbl_users SET name = ?, email = ?, address = ? WHERE id = ?`,
-      [body.name, body.email, body.address, id]
+      `UPDATE tbl_users 
+      SET nama = ?, email = ?, jenis_kelamin = ?, tanggal_lahir = ?, nomor_hp = ? 
+      WHERE id = ?`,
+      [
+        body.nama,
+        body.email,
+        body.jenis_kelamin,
+        body.tanggal_lahir,
+        body.nomor_hp,
+        id,
+      ]
     );
     return result;
   } catch (error) {
@@ -37,9 +57,18 @@ const register = async (body, password) => {
   try {
     const [result] = await connection.execute(
       `INSERT INTO tbl_users 
-      (name,email,password,address,image,role)
-      VALUES (?,?,?,?,?, ?)`,
-      [body.name, body.email, password, body.address, body.image, "USER"]
+      (nama,email,password,jenis_kelamin,tanggal_lahir,nomor_hp,image,role)
+      VALUES (?,?,?,?,?,?,?,?)`,
+      [
+        body.nama,
+        body.email,
+        password,
+        body.jenis_kelamin,
+        body.tanggal_lahir,
+        body.nomor_hp,
+        body.image,
+        "USER",
+      ]
     );
     return result;
   } catch (error) {
@@ -89,6 +118,7 @@ module.exports = {
   updateUser,
   register,
   login,
+  getUserByEmail,
   // updateToken,
   // getToken,
 };

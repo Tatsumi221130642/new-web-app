@@ -10,11 +10,11 @@ async function login(req, res) {
     if (!email) return res.json({ message: "email tidak boleh kosong" });
     if (!password) return res.json({ message: "password tidak boleh kosong" });
     if (role !== "USER")
-      return res.json({ message: "Silahkan register terlebih dahulu" });
+      return res.json({ message: "Anda tidak memiliki akses" });
     const result = await usersModel.login(email);
     if (result.length <= 0) {
       res.json({
-        message: "Login failed",
+        message: "Silahkan register terlebih dahulu",
       });
       return;
     }
@@ -28,7 +28,6 @@ async function login(req, res) {
     );
 
     // await usersModel.updateToken(token, id);
-
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
@@ -36,24 +35,44 @@ async function login(req, res) {
     res.json({
       message: "Login success",
       id: result[0].id,
-      token: token,
+      // token: token,
     });
   } catch (error) {
     console.log(error);
   }
 }
 
-// const logOut = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const result = await usersModel.getUserDetailById(id);
-//     if (result.length <= 0) {
-//       return res.json({ message: "logout failed" });
-//     }
-//     res.json({ message: "success logout" });
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+const register = async (req, res) => {
+  try {
+    const body = req.body;
+    const { email } = body;
 
-module.exports = { login };
+    const dataFromDb = await usersModel.getUserByEmail(email);
+    if (dataFromDb.length > 0 && email === dataFromDb[0].email)
+      return res.json({ message: "email sudah terdaftar" });
+
+    const { password } = body;
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(password, salt);
+
+    const result = await usersModel.register(body, hashPassword);
+    res.status(201).json({ message: "success register" });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    // const token = req.cookies.token;
+    // const user = await userModel.getToken(token);
+    // const userId = user[0].id;
+    // await userModel.updateToken(null, userId);
+    res.clearCookie("token");
+    res.json({ message: "success delete" });
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { login, register, logout };
