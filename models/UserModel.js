@@ -59,29 +59,29 @@ const login = async (email) => {
   }
 };
 
-const getToken = async (token) => {
-  try {
-    const [result] = await connection.execute(
-      `SELECT * FROM tbl_users WHERE token = ?`,
-      [token]
-    );
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
+// const getToken = async (token) => {
+//   try {
+//     const [result] = await connection.execute(
+//       `SELECT * FROM tbl_users WHERE token = ?`,
+//       [token]
+//     );
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-const updateToken = async (token, id) => {
-  try {
-    const [result] = await connection.execute(
-      `UPDATE tbl_users SET token = ? WHERE id = ?`,
-      [token, id]
-    );
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
+// const updateToken = async (token, id) => {
+//   try {
+//     const [result] = await connection.execute(
+//       `UPDATE tbl_users SET token = ? WHERE id = ?`,
+//       [token, id]
+//     );
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 module.exports = {
   users,
@@ -89,6 +89,6 @@ module.exports = {
   updateUser,
   register,
   login,
-  updateToken,
-  getToken,
+  // updateToken,
+  // getToken,
 };
