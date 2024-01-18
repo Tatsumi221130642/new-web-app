@@ -40,4 +40,21 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { users, getUserDetailById, updateUser };
+const updateImageByUserId = async (req, res) => {
+  try {
+    const image = req.file;
+    const { id } = req.params;
+    console.log(image);
+    console.log(image.filename);
+    const result = await userModel.updateImageByUserId(image.filename, id);
+    if (result.affectedRows === 0) {
+      res.status(404).json({ message: "user not found" });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { users, getUserDetailById, updateUser, updateImageByUserId };

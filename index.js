@@ -7,10 +7,14 @@ const webRoutes = require("./routes/web.js");
 const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT;
+const cors = require("cors");
+const path = require("path");
 
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static("public"));
 
 // web routes
 app.use("/web", webRoutes);
@@ -18,48 +22,23 @@ app.get("/", (req, res) => {
   res.json({ message: "Success" });
 });
 
-// app.post("/user", (req, res) => {
-//   const query = "INSERT INTO tbl_users SET ?";
-//   connection.query(query, req.body, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//       res.status(500).json({ message: "Error retrieving data", user });
-//     } else {
-//       res.status(200).json({ message: "Success insert data", data: result });
-//     }
-//   });
+const multer = require("multer");
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
 // });
 
-// // UPDATE USER BY ID
-// app.put("/user/:id", (req, res) => {
-//   const { id } = req.params;
-//   const { name, email, password, address, image, role } = req.body;
-//   const query =
-//     "UPDATE tbl_users SET name=?,email=?,password=?,address=?,image=?,role=? WHERE id = ?";
-//   connection.query(
-//     query,
-//     [name, email, password, address, image, role, id],
-//     (err, result) => {
-//       if (err) {
-//         res.status(500).json({ message: "Error retrieving data", user });
-//       } else {
-//         res.status(200).json({ message: "Success update user", data: result });
-//       }
-//     }
-//   );
+// const upload = multer({
+//   storage: storage,
 // });
 
-// // DELETE USER BY ID
-// app.delete("/user/:id", (req, res) => {
-//   const { id } = req.params;
-//   const query = "DELETE FROM tbl_users WHERE id = ?";
-//   connection.query(query, id, (err, result) => {
-//     if (err) {
-//       res.status(500).json({ message: "Error retrieving data", user });
-//     } else {
-//       res.status(200).json({ message: "Success delete user", data: result });
-//     }
-//   });
+// app.patch("/tes", upload.single("image"), (req, res) => {
+//   console.log(req.file);
 // });
 app.listen(PORT, () => {
   console.log(`server running at http://localhost:${PORT}`);

@@ -2,7 +2,7 @@ const connection = require("../db.js");
 
 const users = async () => {
   try {
-    const [result] = await connection.execute(`SELECT * FROM tbl_users`);
+    const [result] = await connection.execute(`SELECT * FROM user`);
     return result;
   } catch (error) {
     throw error;
@@ -12,7 +12,7 @@ const users = async () => {
 const getUserDetailById = async (id) => {
   try {
     const [result] = await connection.execute(
-      `SELECT * FROM tbl_users WHERE id = ?`,
+      `SELECT * FROM user WHERE id_user = ?`,
       [id]
     );
     return result;
@@ -24,7 +24,7 @@ const getUserDetailById = async (id) => {
 const getUserByEmail = async (email) => {
   try {
     const [result] = await connection.execute(
-      `SELECT * FROM tbl_users WHERE email = ?`,
+      `SELECT * FROM user WHERE email = ?`,
       [email]
     );
     return result;
@@ -35,15 +35,16 @@ const getUserByEmail = async (email) => {
 const updateUser = async (body, id) => {
   try {
     const [result] = await connection.execute(
-      `UPDATE tbl_users 
-      SET nama = ?, email = ?, jenis_kelamin = ?, tanggal_lahir = ?, nomor_hp = ? 
-      WHERE id = ?`,
+      `UPDATE user 
+      SET nama = ?,username = ?, email = ?, jenis_kelamin = ?, tanggal_lahir = ?, no_telp = ?,updated_at = NOW() 
+      WHERE id_user = ?`,
       [
         body.nama,
+        body.username,
         body.email,
         body.jenis_kelamin,
         body.tanggal_lahir,
-        body.nomor_hp,
+        body.no_telp,
         id,
       ]
     );
@@ -53,21 +54,37 @@ const updateUser = async (body, id) => {
   }
 };
 
+const updateImageByUserId = async (image, idUser) => {
+  try {
+    const query = `
+      UPDATE user
+      SET img = ?
+      WHERE id_user = ?
+    `;
+    const response = await connection.execute(query, [image, idUser]);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const register = async (body, password) => {
   try {
     const [result] = await connection.execute(
-      `INSERT INTO tbl_users 
-      (nama,email,password,jenis_kelamin,tanggal_lahir,nomor_hp,image,role)
-      VALUES (?,?,?,?,?,?,?,?)`,
+      `INSERT INTO user
+      (nama,username,email,password,jenis_kelamin,tanggal_lahir,no_telp,img,img_url,id_role)
+      VALUES (?,?,?,?,?,?,?,?,?)`,
       [
         body.nama,
+        body.username,
         body.email,
         password,
         body.jenis_kelamin,
         body.tanggal_lahir,
-        body.nomor_hp,
-        body.image,
-        "USER",
+        body.no_telp,
+        body.img,
+        body.img_url,
+        body.id_role,
       ]
     );
     return result;
@@ -79,7 +96,7 @@ const register = async (body, password) => {
 const login = async (email) => {
   try {
     const [result] = await connection.execute(
-      `SELECT * FROM tbl_users WHERE email = ? AND role = 'USER'`,
+      `SELECT * FROM user WHERE email = ?`,
       [email]
     );
     return result;
@@ -88,30 +105,6 @@ const login = async (email) => {
   }
 };
 
-// const getToken = async (token) => {
-//   try {
-//     const [result] = await connection.execute(
-//       `SELECT * FROM tbl_users WHERE token = ?`,
-//       [token]
-//     );
-//     return result;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
-// const updateToken = async (token, id) => {
-//   try {
-//     const [result] = await connection.execute(
-//       `UPDATE tbl_users SET token = ? WHERE id = ?`,
-//       [token, id]
-//     );
-//     return result;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
 module.exports = {
   users,
   getUserDetailById,
@@ -119,6 +112,5 @@ module.exports = {
   register,
   login,
   getUserByEmail,
-  // updateToken,
-  // getToken,
+  updateImageByUserId,
 };
