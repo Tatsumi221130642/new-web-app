@@ -72,7 +72,7 @@ const register = async (body, password) => {
   try {
     const [result] = await connection.execute(
       `INSERT INTO user
-      (nama,username,email,password,jenis_kelamin,tanggal_lahir,no_telp,img,img_url,id_role)
+      (nama,username,email,password,jenis_kelamin,tanggal_lahir,no_telp,img,id_role)
       VALUES (?,?,?,?,?,?,?,?,?)`,
       [
         body.nama,
@@ -83,7 +83,6 @@ const register = async (body, password) => {
         body.tanggal_lahir,
         body.no_telp,
         body.img,
-        body.img_url,
         body.id_role,
       ]
     );

@@ -44,8 +44,7 @@ const updateImageByUserId = async (req, res) => {
   try {
     const image = req.file;
     const { id } = req.params;
-    console.log(image);
-    console.log(image.filename);
+    const body = req.body;
     const result = await userModel.updateImageByUserId(image.filename, id);
     if (result.affectedRows === 0) {
       res.status(404).json({ message: "user not found" });

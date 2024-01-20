@@ -1,4 +1,5 @@
 const usersModel = require("../models/UserModel.js");
+const MitraModel = require("../models/MitraModel.js");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth.js");
 const bcrypt = require("bcrypt");
@@ -13,6 +14,9 @@ async function login(req, res) {
         .json({ message: "email atau password tidak boleh kosong" });
     // if (role !== 1) return res.json({ message: "Anda tidak memiliki akses" });
     const result = await usersModel.login(email);
+    const getMitraProfil = await MitraModel.getMitraProfilLayanan(
+      result[0].id_user
+    );
     if (result.length <= 0) {
       return res.status(401).json({
         message: "Silahkan register terlebih dahulu",
@@ -27,11 +31,22 @@ async function login(req, res) {
       process.env.SECRET_KEY_JWT,
       { expiresIn: "2 days" }
     );
-    res.json({
-      message: "Login success",
-      id: result[0].id_user,
-      token: token,
-    });
+    if (getMitraProfil.length >= 1) {
+      res.json({
+        message: "Login success",
+        id: result[0].id_user,
+        id_mitra: getMitraProfil[0].id_mitra && getMitraProfil[0].id_mitra,
+        id_role: result[0].id_role,
+        token: token,
+      });
+    } else {
+      res.json({
+        message: "Login success",
+        id: result[0].id_user,
+        id_role: result[0].id_role,
+        token: token,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
