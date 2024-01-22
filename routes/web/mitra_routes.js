@@ -12,6 +12,12 @@ routes.get(
 );
 
 routes.get(
+  "/profil/detail/:idMitra",
+  auth.authenticationToken,
+  mitraController.getDetailMitra
+);
+
+routes.get(
   "/gallery/:idMitra",
   auth.authenticationToken,
   mitraController.getAllGalleriesMitra
@@ -34,5 +40,7 @@ routes.post(
   [auth.authenticationToken, uploadGallery.array("image", undefined)],
   mitraController.postGalleriesMitra
 );
+
+routes.get("/list/:idCategory", mitraController.getAllMitraByIdCategory);
 
 module.exports = routes;

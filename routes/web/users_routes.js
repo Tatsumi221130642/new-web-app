@@ -16,5 +16,25 @@ routes.patch(
   [upload.single("image")],
   userController.updateImageByUserId
 );
+routes.patch(
+  "/username/:idUser",
+  auth.authenticationToken,
+  userController.updateUsernameById
+);
+routes.patch(
+  "/no-telp/:idUser",
+  auth.authenticationToken,
+  userController.updateNoTelpById
+);
+routes.patch(
+  "/email/:idUser",
+  auth.authenticationToken,
+  userController.updateEmailById
+);
+routes.patch(
+  "/password/:idUser",
+  auth.authenticationToken,
+  userController.updatePasswordById
+);
 
 module.exports = routes;

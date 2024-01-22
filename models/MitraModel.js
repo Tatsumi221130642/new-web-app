@@ -74,9 +74,37 @@ const getAllGalleriesMitra = async (idMitra) => {
     SELECT * FROM galeri WHERE id_mitra = ?
     `;
     const [result] = await connection.execute(query, [idMitra]);
-    return result
+    return result;
   } catch (error) {
-    throw error
+    throw error;
+  }
+};
+
+const getAllMitraByIdCategory = async (idCategory) => {
+  try {
+    const query = `
+    SELECT * FROM mitra WHERE id_kategori = ?
+    `;
+    const [result] = await connection.execute(query, [idCategory]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getDetailMitra = async (idMitra) => {
+  try {
+    const query = `
+    SELECT m.id_mitra,m.id_user,m.id_kategori,m.nama_servis,m.image,m.status,m.deskripsi,u.no_telp
+    FROM mitra m
+    JOIN user u
+    ON m.id_user = u.id_user
+    WHERE m.id_mitra = ?;
+    `;
+    const [result] = await connection.execute(query, [idMitra]);
+    return result;
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -85,5 +113,7 @@ module.exports = {
   updateStatus,
   updateMitraProfilLayanan,
   postGalleriesMitra,
-  getAllGalleriesMitra
+  getAllGalleriesMitra,
+  getAllMitraByIdCategory,
+  getDetailMitra,
 };

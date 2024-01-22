@@ -60,20 +60,43 @@ const postGalleriesMitra = async (req, res) => {
   }
 };
 
-const getAllGalleriesMitra = async(req,res) => {
+const getAllGalleriesMitra = async (req, res) => {
   try {
-    const {idMitra} = req.params
-    const result = await MitraModel.getAllGalleriesMitra(idMitra)
-    res.status(200).json({message:"success",data:result})
+    const { idMitra } = req.params;
+    const result = await MitraModel.getAllGalleriesMitra(idMitra);
+    res.status(200).json({ message: "success", data: result });
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
+
+const getAllMitraByIdCategory = async (req, res) => {
+  try {
+    const { idCategory } = req.params;
+    console.log(idCategory);
+    const result = await MitraModel.getAllMitraByIdCategory(idCategory);
+    res.status(200).json({ message: "success", data: result });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getDetailMitra = async (req, res) => {
+  try {
+    const { idMitra } = req.params;
+    const result = await MitraModel.getDetailMitra(idMitra);
+    res.status(200).json({ message: "success", data: result });
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   getMitraProfilLayanan,
   updateStatus,
   updateMitraProfilLayanan,
   postGalleriesMitra,
-  getAllGalleriesMitra
+  getAllGalleriesMitra,
+  getAllMitraByIdCategory,
+  getDetailMitra,
 };

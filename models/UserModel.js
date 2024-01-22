@@ -104,6 +104,62 @@ const login = async (email) => {
   }
 };
 
+const updateUsernameById = async (idUser, username) => {
+  try {
+    const query = `
+    UPDATE user
+    SET username = ?
+    WHERE id_user = ?
+    `;
+    const [result] = await connection.execute(query, [username, idUser]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateNoTelpById = async (idUser, noTelp) => {
+  try {
+    const query = `
+    UPDATE user
+    SET no_telp = ?
+    WHERE id_user = ?
+    `;
+    const [result] = await connection.execute(query, [noTelp, idUser]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateEmailById = async (idUser, email) => {
+  try {
+    const query = `
+    UPDATE user
+    SET email = ?
+    WHERE id_user = ?
+    `;
+    const [result] = await connection.execute(query, [email, idUser]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updatePasswordById = async (idUser, password) => {
+  try {
+    const query = `
+    UPDATE user
+    SET password = ?
+    WHERE id_user = ?
+    `;
+    const [result] = await connection.execute(query, [password, idUser]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   users,
   getUserDetailById,
@@ -112,4 +168,8 @@ module.exports = {
   login,
   getUserByEmail,
   updateImageByUserId,
+  updateUsernameById,
+  updateNoTelpById,
+  updateEmailById,
+  updatePasswordById,
 };
