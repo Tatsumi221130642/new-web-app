@@ -19,7 +19,6 @@ const createTransaction = async (req, res) => {
       body
     );
     res.status(200).json({ message: "success", data: result });
-    console.log(body, idUser);
   } catch (error) {
     throw error;
   }
@@ -131,7 +130,6 @@ const createInvoice = async (req, res) => {
       body.total_tagihan
     );
     res.status(200).json({ message: "success", data: result });
-    console.log(idTransaksi, body, numberInvoice);
   } catch (error) {
     throw error;
   }
@@ -158,7 +156,6 @@ const updateNominalInvoiceByIdTransaksi = async (req, res) => {
       idTransaksi
     );
     res.status(200).json({ message: "success", data: result });
-    console.log(idTransaksi, body);
   } catch (error) {
     throw error;
   }

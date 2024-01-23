@@ -11,16 +11,18 @@ routes.get(
   mitraController.getMitraProfilLayanan
 );
 
-routes.get(
-  "/profil/detail/:idMitra",
-  auth.authenticationToken,
-  mitraController.getDetailMitra
-);
+routes.get("/profil/detail/:idMitra", mitraController.getDetailMitra);
 
 routes.get(
   "/gallery/:idMitra",
   auth.authenticationToken,
   mitraController.getAllGalleriesMitra
+);
+
+routes.post(
+  "/profil/:idUser",
+  [upload.single("image"), auth.authenticationToken],
+  mitraController.createMitraProfilLayanan
 );
 
 routes.patch(

@@ -28,7 +28,6 @@ const updateMitraProfilLayanan = async (req, res) => {
     const body = req.body;
     const isImage = image ? image.filename : body.image;
 
-    console.log(image, idUser, body, isImage);
     const result = await MitraModel.updateMitraProfilLayanan(
       idUser,
       isImage,
@@ -91,6 +90,22 @@ const getDetailMitra = async (req, res) => {
   }
 };
 
+const createMitraProfilLayanan = async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const image = req.file;
+    const body = req.body;
+    const result = await MitraModel.createMitraProfilLayanan(
+      idUser,
+      image.filename,
+      body
+    );
+    res.status(200).json({ message: "success", data: result });
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getMitraProfilLayanan,
   updateStatus,
@@ -99,4 +114,5 @@ module.exports = {
   getAllGalleriesMitra,
   getAllMitraByIdCategory,
   getDetailMitra,
+  createMitraProfilLayanan,
 };

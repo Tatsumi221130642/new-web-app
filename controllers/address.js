@@ -25,7 +25,6 @@ const updateAddressById = async (req, res) => {
     const { idAddress } = req.params;
     const body = req.body;
     const result = await AddressModel.updateAddressById(body, idAddress);
-    // console.log(result);
     res.json({ message: "success" });
   } catch (error) {
     throw error;

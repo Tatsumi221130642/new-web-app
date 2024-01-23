@@ -65,7 +65,7 @@ const createRatingUser = async (idTransaksi, body) => {
 const getAllRatingDiUlasByMitra = async (idMitra) => {
   try {
     const query = `
-    SELECT t.id_transaksi,t.id_user,t.kode_pemesanan,m.nama_servis,c.nama_kategori,m.image,r.rate,r.deskripsi,r.created_at
+    SELECT t.id_transaksi,t.id_user,t.kode_pemesanan,u.nama,u.img,m.nama_servis,c.nama_kategori,m.image,r.rate,r.deskripsi,r.created_at
     FROM transaksi t
     JOIN user u
     ON t.id_user = u.id_user

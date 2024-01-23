@@ -28,7 +28,6 @@ routes.post(
 // route mitra
 routes.get(
   "/mitra/diulas/:idMitra",
-  auth.authenticationToken,
   ratingController.getAllRatingDiUlasByMitra
 );
 routes.get(
