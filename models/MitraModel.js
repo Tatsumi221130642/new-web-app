@@ -10,6 +10,26 @@ const getMitraProfilLayanan = async (idUser) => {
   }
 };
 
+const createMitraProfilLayanan = async (idUser, image, body) => {
+  try {
+    const query = `
+    INSERT INTO mitra (id_user,id_kategori,nama_servis,image,status,deskripsi)
+    VALUES(?,?,?,?,?,?)
+    `;
+    const [result] = await connection.execute(query, [
+      idUser,
+      body.id_kategori,
+      body.nama_servis,
+      image,
+      body.status,
+      body.deskripsi,
+    ]);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateStatus = async (idUser, statusLayanan) => {
   try {
     const query = `
@@ -83,7 +103,11 @@ const getAllGalleriesMitra = async (idMitra) => {
 const getAllMitraByIdCategory = async (idCategory) => {
   try {
     const query = `
-    SELECT * FROM mitra WHERE id_kategori = ?
+    SELECT m.id_mitra,m.nama_servis,m.image,a.nama_jalan
+    FROM mitra m
+    JOIN alamat a
+    ON m.id_user = a.id_user
+    WHERE m.id_kategori = ?
     `;
     const [result] = await connection.execute(query, [idCategory]);
     return result;
@@ -95,10 +119,12 @@ const getAllMitraByIdCategory = async (idCategory) => {
 const getDetailMitra = async (idMitra) => {
   try {
     const query = `
-    SELECT m.id_mitra,m.id_user,m.id_kategori,m.nama_servis,m.image,m.status,m.deskripsi,u.no_telp
+    SELECT m.id_mitra,m.id_user,m.id_kategori,m.nama_servis,m.image,m.deskripsi,m.status,g.image AS galeri_img,a.kabupaten,a.kecamatan
     FROM mitra m
-    JOIN user u
-    ON m.id_user = u.id_user
+    JOIN galeri g
+    ON m.id_mitra = g.id_mitra
+    JOIN alamat a
+    ON a.id_user = m.id_user
     WHERE m.id_mitra = ?;
     `;
     const [result] = await connection.execute(query, [idMitra]);
@@ -116,4 +142,9 @@ module.exports = {
   getAllGalleriesMitra,
   getAllMitraByIdCategory,
   getDetailMitra,
+<<<<<<< HEAD
 };
+=======
+  createMitraProfilLayanan,
+};
+>>>>>>> 91b2f8200adc6e377f3fc729754529ed6d238dfb

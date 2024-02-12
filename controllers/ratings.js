@@ -21,9 +21,9 @@ const getAllRatingDiUlasByIdUser = async (req, res) => {
 
 const createRatingUser = async (req, res) => {
   try {
-    const { idUser } = req.params;
+    const { idTransaksi } = req.params;
     const body = req.body;
-    const result = await RatingModel.createRatingUser(idUser, body);
+    const result = await RatingModel.createRatingUser(idTransaksi, body);
     res.status(200).json({ message: "success", data: result });
   } catch (error) {
     throw error;
@@ -42,7 +42,7 @@ const getAllRatingDiUlasByMitra = async (req, res) => {
 
 const getAllRatingRateByMitra = async (req, res) => {
   try {
-    const { idMitra,rate } = req.params;
+    const { idMitra, rate } = req.params;
     console.log(rate);
     const result = await RatingModel.getAllRatingRateByMitra(
       idMitra,

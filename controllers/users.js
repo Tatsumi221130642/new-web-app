@@ -44,7 +44,6 @@ const updateImageByUserId = async (req, res) => {
   try {
     const image = req.file;
     const { id } = req.params;
-    const body = req.body;
     const result = await userModel.updateImageByUserId(image.filename, id);
     if (result.affectedRows === 0) {
       res.status(404).json({ message: "user not found" });
@@ -121,7 +120,6 @@ const updatePasswordById = async (req, res) => {
 
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password_baru, salt);
-    console.log(hashPassword);
     const result = await userModel.updatePasswordById(idUser, hashPassword);
     res.status(200).json({ message: "success" });
   } catch (error) {
