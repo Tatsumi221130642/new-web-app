@@ -12,7 +12,8 @@ const createTransaction = async (
   try {
     const query = `
         INSERT INTO transaksi
-        (id_user,id_alamat,id_mitra,id_kategori,kode_pemesanan,nama_customer,no_telp,tanggal_layanan,waktu_layanan,keluhan,jenis_properti,tangga,deskripsi,status)
+        (id_user,id_alamat,id_mitra,id_kategori,kode_pemesanan,nama_customer,
+          no_telp,tanggal_layanan,waktu_layanan,keluhan,jenis_properti,tangga,deskripsi,status)
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         `;
     const [result] = await connection.execute(query, [
@@ -56,7 +57,10 @@ const createInvoice = async (idTransaksi, kodeInvoice, body) => {
 const getAllTransactionByIdUser = async (idUser) => {
   try {
     const query = `
-    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
+    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,
+    t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,
+    t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,
+    a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
     FROM transaksi t
     JOIN mitra m
     ON t.id_mitra = m.id_mitra
@@ -76,7 +80,10 @@ const getAllTransactionByIdUser = async (idUser) => {
 const getAllTransactionStatusByIdUser = async (idUser, status) => {
   try {
     const query = `
-      SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
+      SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,
+      t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,
+      t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,
+      a.kecamatan,a.deskripsi
       FROM transaksi t
       JOIN mitra m
       ON t.id_mitra = m.id_mitra
@@ -96,7 +103,10 @@ const getAllTransactionStatusByIdUser = async (idUser, status) => {
 const getDetailTransactionByIdTransaction = async (idTransaksi) => {
   try {
     const query = `
-        SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi,t.created_at,t.keluhan
+        SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,
+        t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,
+        t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,
+        a.deskripsi,t.created_at,t.keluhan
         FROM transaksi t
         JOIN mitra m
         ON t.id_mitra = m.id_mitra
@@ -173,7 +183,10 @@ const changeRatingStatus = async (idTransaksi) => {
 const getAllTransactionByIdMitra = async (idMitra) => {
   try {
     const query = `
-    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
+    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,
+    t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,
+    t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,
+    a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
     FROM transaksi t
     JOIN mitra m
     ON t.id_mitra = m.id_mitra
@@ -193,7 +206,10 @@ const getAllTransactionByIdMitra = async (idMitra) => {
 const getAllTransactionStatusByIdMitra = async (idMitra, status) => {
   try {
     const query = `
-    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
+    SELECT t.id_transaksi,t.id_alamat,t.id_mitra,t.id_kategori,c.nama_kategori,
+    t.kode_pemesanan,t.nama_customer,t.no_telp,t.tanggal_layanan,t.waktu_layanan,
+    t.jenis_properti,t.tangga,t.status,m.nama_servis,m.image,a.label_alamat,a.nama_jalan,
+    a.provinsi,a.kabupaten,a.kecamatan,a.deskripsi
     FROM transaksi t
     JOIN mitra m
     ON t.id_mitra = m.id_mitra
